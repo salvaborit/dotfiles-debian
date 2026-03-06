@@ -232,8 +232,7 @@ VERIFY_PATHS=(
   "$HOME/.local/bin/terminal-tmux-bash:scripts-local"
   "$HOME/.local/share/wordlists/mit-top-10000-en.txt:local"
   "$HOME/.claude/statusline-command.sh:claude-home"
-  "$HOME/.claude/statusline.json:claude-home"
-  "$HOME/.claude/hooks.json:claude-home"
+  "$HOME/.claude/settings.json:claude-home"
   "$HOME/.claude/sounds/start.wav:claude-home"
 )
 
