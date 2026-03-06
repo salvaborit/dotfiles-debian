@@ -28,7 +28,8 @@ else
   bar_color="\033[31m"  # red
 fi
 
-# Output: dir | git | context bar
+# Output: host | dir | git | context bar
+printf "\033[1;35m%s\033[0m " "$(hostname)"
 printf "\033[1;34m%s\033[0m" "$cwd"
 [[ -n "$branch" ]] && printf " \033[1;33m %s%s\033[0m" "$branch" "$dirty"
 printf " ${bar_color}[%s] %d%%\033[0m" "$bar" "$percent"
