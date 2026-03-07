@@ -64,10 +64,21 @@ fi
 alias cc='claude'
 alias ccc='claude --dangerously-skip-permissions'
 
-clone() {
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
+
+# util fns
+clone() { # clone username reponame
   git clone "git@github.com:$1/$2.git"
 }
+tarscp() { #  tarscp sourcedir destdir port?
+  local src="${1%/}"
+  local dest="$2"
+  local port="${3:-2121}"
+  local host="${dest%%:*}"
+  local path="${dest##*:}"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  tar czf - "$src" | ssh -p "$port" "$host" "cd '$path' && tar xzf -"
+}
