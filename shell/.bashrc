@@ -82,3 +82,6 @@ tarscp() { #  tarscp sourcedir destdir port?
 
   tar czf - "$src" | ssh -p "$port" "$host" "cd '$path' && tar xzf -"
 }
+
+# richer terminal colors
+export COLORTERM=truecolor
