@@ -114,6 +114,7 @@ backup_if_needed() {
 log_info "Checking for conflicting files..."
 backup_if_needed "$HOME/.bashrc"
 backup_if_needed "$HOME/.vimrc"
+backup_if_needed "$HOME/.tmux.conf"
 
 for dir in \
   "$HOME/.config/tmux" \
@@ -230,6 +231,7 @@ VERIFY_PATHS=(
   "$HOME/.bashrc:shell"
   "$HOME/.vimrc:shell"
   "$HOME/.config/starship.toml:shell"
+  "$HOME/.tmux.conf:tmux"
   "$HOME/.config/tmux/tmux.conf:tmux"
   "$HOME/.config/tmux/scripts/git-status.sh:tmux"
   "$HOME/.config/nvim/init.lua:neovim"
