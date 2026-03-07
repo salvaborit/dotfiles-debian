@@ -66,16 +66,16 @@ install_packages() {
   return 0
 }
 
-# yes/no qs
+# yes/no qs — default is No (just press Enter)
 ask_yes_no() {
   local prompt="$1"
   local response
 
   while true; do
-    read -p "$prompt (y/n): " response
+    read -p "$prompt (y/N): " response
     case "$response" in
     [Yy]*) return 0 ;;
-    [Nn]*) return 1 ;;
+    [Nn]*|"") return 1 ;;
     *) echo "Please answer y or n." ;;
     esac
   done
