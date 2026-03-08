@@ -83,5 +83,15 @@ tarscp() { #  tarscp sourcedir destdir port?
   tar czf - "$src" | ssh -p "$port" "$host" "cd '$path' && tar xzf -"
 }
 
+# tmux shortcuts
+tmux() {
+  case "$1" in
+  new) command tmux new -s "$2" ;;
+  a) command tmux attach -t "$2" ;;
+  kill) command tmux kill-session -t "$2" ;;
+  *) command tmux "$@" ;;
+  esac
+}
+
 # richer terminal colors
 export COLORTERM=truecolor
