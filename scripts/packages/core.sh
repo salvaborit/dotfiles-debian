@@ -37,6 +37,7 @@ install_packages \
   build-essential \
   ripgrep \
   fd-find \
+  gh \
   pulseaudio-utils
 
 end_timer "success"
