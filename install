@@ -182,7 +182,21 @@ fi
 echo ""
 
 # ============================================================================
-# 5. Configure SSH + UFW (if --ssh-port provided)
+# 5. Enable loginctl linger
+# ============================================================================
+
+if loginctl show-user "$USER" --property=Linger 2>/dev/null | grep -q "Linger=yes"; then
+  log_success "Linger already enabled for $USER"
+else
+  log_info "Enabling linger for $USER..."
+  sudo loginctl enable-linger "$USER"
+  log_success "Linger enabled for $USER"
+fi
+
+echo ""
+
+# ============================================================================
+# 6. Configure SSH + UFW (if --ssh-port provided)
 # ============================================================================
 
 if [ -n "$SSH_PORT" ]; then
@@ -215,14 +229,14 @@ if [ -n "$SSH_PORT" ]; then
 fi
 
 # ============================================================================
-# 6. Install Docker (last, as requested)
+# 7. Install Docker (last, as requested)
 # ============================================================================
 
 bash "$SCRIPT_DIR/packages/docker.sh"
 echo ""
 
 # ============================================================================
-# 7. Verify symlinks
+# 8. Verify symlinks
 # ============================================================================
 
 log_info "Verifying symlink deployment..."
