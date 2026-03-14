@@ -26,6 +26,12 @@ alias g='git'
 
 alias d='docker'
 alias dc='docker compose'
+alias dcu='docker compose up'
+alias dcud='docker compose up -d'
+alias dcub='docker compose up --build'
+alias dcudb='docker compose up -d --build'
+alias dcbnc='docker compose build --no-cache'
+alias dcd='docker compose down'
 
 alias q='exit'
 alias c='clear'
