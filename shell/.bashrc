@@ -32,6 +32,7 @@ alias dcub='docker compose up --build'
 alias dcudb='docker compose up -d --build'
 alias dcbnc='docker compose build --no-cache'
 alias dcd='docker compose down'
+alias dcpsa='docker compose ps -a'
 
 alias q='exit'
 alias c='clear'
