@@ -32,10 +32,21 @@ alias dcub='docker compose up --build'
 alias dcudb='docker compose up -d --build'
 alias dcbnc='docker compose build --no-cache'
 alias dcd='docker compose down'
-alias dcpsa='docker compose ps -a'
+alias dcpa='docker compose ps -a'
+alias dcp='docker compose ps'
+alias dcl='docker compose logs'
+alias dcs='docker compose stats'
+
+alias dpa='docker ps -a'
+alias dp='docker ps'
+alias ds='docker stats'
 
 alias q='exit'
 alias c='clear'
+
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
 
 # editor
 export EDITOR='nvim'
@@ -44,6 +55,59 @@ alias n='nvim'
 # show file system structure trees
 alias dtree='tree -C -d --dirsfirst'
 alias ftree='tree -C -L 5 --dirsfirst'
+
+# claude code
+alias cc='claude'
+alias ccc='claude --dangerously-skip-permissions'
+
+alias timer='echo "Timer started. Stop with Ctrl+D." && date && time cat && date'
+alias myip='curl -s ifconfig.me'
+
+# notes
+note() { echo "$(date +%F) $*" >>~/notes.md; }
+todo() { echo "$(date +%F) [ ] $*" >>~/notes.md; }
+notes() { cat ~/notes.md; }
+
+# util fns
+clone() { # clone username reponame
+  git clone "git@github.com:$1/$2.git"
+}
+tarscp() { #  tarscp sourcedir destdir port?
+  local src="${1%/}"
+  local dest="$2"
+  local port="${3:-2121}"
+  local host="${dest%%:*}"
+  local path="${dest##*:}"
+
+  tar czf - "$src" | ssh -p "$port" "$host" "cd '$path' && tar xzf -"
+}
+#mkdir -p && cd
+mkcd() { mkdir -p "$1" && cd "$1"; }
+# tmux shortcuts
+tmux() {
+  case "$1" in
+  new) command tmux new -s "$2" ;;
+  a) command tmux attach -t "$2" ;;
+  kill) command tmux kill-session -t "$2" ;;
+  *) command tmux "$@" ;;
+  esac
+}
+# extract
+ex() {
+  for f in "$@"; do
+    case "$f" in
+    *.tar.gz | *.tgz) tar xzf "$f" ;;
+    *.tar.bz2) tar xjf "$f" ;;
+    *.tar.xz) tar xJf "$f" ;;
+    *.tar) tar xf "$f" ;;
+    *.zip) unzip "$f" ;;
+    *.gz) gunzip "$f" ;;
+    *.7z) 7z x "$f" ;;
+    *.rar) unrar x "$f" ;;
+    *) echo "ex: unknown format '$f'" ;;
+    esac
+  done
+}
 
 # git prompt fallback (used if starship is not installed)
 parse_git_branch() {
@@ -67,38 +131,10 @@ if [ -n "$SSH_CONNECTION" ]; then
   export PULSE_SERVER=tcp:localhost:4713
 fi
 
-# claude code
-alias cc='claude'
-alias ccc='claude --dangerously-skip-permissions'
-
 # nvm
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# util fns
-clone() { # clone username reponame
-  git clone "git@github.com:$1/$2.git"
-}
-tarscp() { #  tarscp sourcedir destdir port?
-  local src="${1%/}"
-  local dest="$2"
-  local port="${3:-2121}"
-  local host="${dest%%:*}"
-  local path="${dest##*:}"
-
-  tar czf - "$src" | ssh -p "$port" "$host" "cd '$path' && tar xzf -"
-}
-
-# tmux shortcuts
-tmux() {
-  case "$1" in
-  new) command tmux new -s "$2" ;;
-  a) command tmux attach -t "$2" ;;
-  kill) command tmux kill-session -t "$2" ;;
-  *) command tmux "$@" ;;
-  esac
-}
 
 # richer terminal colors
 export COLORTERM=truecolor
