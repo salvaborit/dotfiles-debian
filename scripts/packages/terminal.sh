@@ -65,6 +65,24 @@ else
   fi
 fi
 
+# Install GitHub CLI from official apt repository
+if command_exists gh; then
+  log_success "gh is already installed"
+else
+  log_info "Installing GitHub CLI..."
+  sudo mkdir -p -m 755 /etc/apt/keyrings
+  wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
+  sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
+  echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+  sudo apt update
+  sudo apt install -y gh
+  if command_exists gh; then
+    log_success "gh installed: $(gh --version | head -1)"
+  else
+    log_error "gh installation failed"
+  fi
+fi
+
 # Install Node.js via nvm
 if command_exists node; then
   log_success "node is already installed: $(node -v)"
