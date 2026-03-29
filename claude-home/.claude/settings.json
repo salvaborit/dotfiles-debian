@@ -1055,7 +1055,7 @@
       "Republic F-84G Thunderjet",
       "Republic RF-84F Thunderflash",
       "Republic XF-84H Thunderscreech",
-      "Saab 35\u00d6 Draken",
+      "Saab 35Ö Draken",
       "Saab 35XD Draken",
       "Saab 35XS Draken",
       "Saab AJ 37 Viggen",
@@ -1211,7 +1211,7 @@
       "Yakovlev Yak-38U"
     ]
   },
+  "effortLevel": "medium",
   "autoUpdatesChannel": "latest",
-  "skipDangerousModePermissionPrompt": true,
-  "effortLevel": "high"
+  "skipDangerousModePermissionPrompt": true
 }
