@@ -58,7 +58,17 @@ alias ftree='tree -C -L 5 --dirsfirst'
 
 # claude code
 alias cc='claude'
+alias ccmo='claude --model claude-opus-4-5'
+alias ccms='claude --model claude-sonnet-4-5'
+alias ccw='claude --worktree'
+alias ccwmo='claude --worktree --model claude-opus-4-5'
+alias ccwms='claude --worktree --model claude-sonnet-4-5'
 alias ccc='claude --dangerously-skip-permissions'
+alias cccmo='claude --dangerously-skip-permissions --model claude-opus-4-5'
+alias cccms='claude --dangerously-skip-permissions --model claude-sonnet-4-5'
+alias cccw='claude --dangerously-skip-permissions --worktree'
+alias cccwmo='claude --dangerously-skip-permissions --worktree --model claude-opus-4-5'
+alias cccwms='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-5'
 
 alias timer='echo "Timer started. Stop with Ctrl+D." && date && time cat && date'
 alias myip='curl -s ifconfig.me'
