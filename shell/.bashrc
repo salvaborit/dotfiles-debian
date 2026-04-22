@@ -85,6 +85,8 @@ alias cccws6='claude --dangerously-skip-permissions --worktree --model claude-so
 alias timer='echo "Timer started. Stop with Ctrl+D." && date && time cat && date'
 alias myip='curl -s ifconfig.me'
 
+alias setgitperms='find /srv -maxdepth 2 -name ".git" -type d | xargs -I{} git -C {}/../ config core.sharedRepository group'
+
 # notes
 note() { echo "$(date +%F) $*" >>~/notes.md; }
 todo() { echo "$(date +%F) [ ] $*" >>~/notes.md; }
