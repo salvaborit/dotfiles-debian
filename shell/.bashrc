@@ -58,17 +58,29 @@ alias ftree='tree -C -L 5 --dirsfirst'
 
 # claude code
 alias cc='claude'
-alias ccmo='claude --model claude-opus-4-5'
-alias ccms='claude --model claude-sonnet-4-5'
 alias ccw='claude --worktree'
-alias ccwmo='claude --worktree --model claude-opus-4-5'
-alias ccwms='claude --worktree --model claude-sonnet-4-5'
 alias ccc='claude --dangerously-skip-permissions'
-alias cccmo='claude --dangerously-skip-permissions --model claude-opus-4-5'
-alias cccms='claude --dangerously-skip-permissions --model claude-sonnet-4-5'
 alias cccw='claude --dangerously-skip-permissions --worktree'
-alias cccwmo='claude --dangerously-skip-permissions --worktree --model claude-opus-4-5'
-alias cccwms='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-5'
+# model variants: o=opus, s=sonnet, 5=4.5, 6=4.6
+alias cco5='claude --model claude-opus-4-5'
+alias cco6='claude --model claude-opus-4-6'
+alias ccs5='claude --model claude-sonnet-4-5'
+alias ccs6='claude --model claude-sonnet-4-6'
+# worktree + model
+alias ccwo5='claude --worktree --model claude-opus-4-5'
+alias ccwo6='claude --worktree --model claude-opus-4-6'
+alias ccws5='claude --worktree --model claude-sonnet-4-5'
+alias ccws6='claude --worktree --model claude-sonnet-4-6'
+# dangerously-skip-permissions + model
+alias ccco5='claude --dangerously-skip-permissions --model claude-opus-4-5'
+alias ccco6='claude --dangerously-skip-permissions --model claude-opus-4-6'
+alias cccs5='claude --dangerously-skip-permissions --model claude-sonnet-4-5'
+alias cccs6='claude --dangerously-skip-permissions --model claude-sonnet-4-6'
+# dangerously-skip-permissions + worktree + model
+alias cccwo5='claude --dangerously-skip-permissions --worktree --model claude-opus-4-5'
+alias cccwo6='claude --dangerously-skip-permissions --worktree --model claude-opus-4-6'
+alias cccws5='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-5'
+alias cccws6='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-6'
 
 alias timer='echo "Timer started. Stop with Ctrl+D." && date && time cat && date'
 alias myip='curl -s ifconfig.me'
@@ -90,6 +102,9 @@ tarscp() { #  tarscp sourcedir destdir port?
   local path="${dest##*:}"
 
   tar czf - "$src" | ssh -p "$port" "$host" "cd '$path' && tar xzf -"
+}
+serve() { # serve port? dir?
+  python3 -m http.server "${1:-5173}" -d "${2:-.}"
 }
 #mkdir -p && cd
 mkcd() { mkdir -p "$1" && cd "$1"; }
@@ -148,3 +163,6 @@ export NVM_DIR="$HOME/.nvm"
 
 # richer terminal colors
 export COLORTERM=truecolor
+
+# opencode
+export PATH=/home/sborit/.opencode/bin:$PATH
