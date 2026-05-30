@@ -15,6 +15,8 @@ else
   alias lsa='ls -lah'
 fi
 
+alias update='sudo apt upgrade -y && sudo apt update -y'
+
 alias gg='lazygit'
 alias gita='git add'
 alias gitc='git commit -m'
