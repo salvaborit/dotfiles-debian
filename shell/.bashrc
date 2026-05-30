@@ -170,3 +170,7 @@ export COLORTERM=truecolor
 
 # opencode
 export PATH=/home/sborit/.opencode/bin:$PATH
+
+# >>> grok installer >>>
+export PATH="$HOME/.grok/bin:$PATH"
+# <<< grok installer <<<
