@@ -1220,7 +1220,7 @@
       "Yakovlev Yak-38U"
     ]
   },
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark-daltonized"
