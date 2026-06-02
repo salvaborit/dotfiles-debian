@@ -174,3 +174,8 @@ export PATH=/home/sborit/.opencode/bin:$PATH
 # >>> grok installer >>>
 export PATH="$HOME/.grok/bin:$PATH"
 # <<< grok installer <<<
+
+# zoxide (smarter cd)
+if command -v zoxide &>/dev/null; then
+  eval "$(zoxide init bash --cmd cd)"
+fi

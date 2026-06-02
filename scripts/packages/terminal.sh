@@ -100,4 +100,17 @@ else
   fi
 fi
 
+# Install zoxide (smarter cd)
+if command_exists zoxide; then
+  log_success "zoxide is already installed"
+else
+  log_info "Installing zoxide..."
+  curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  if command_exists zoxide; then
+    log_success "zoxide installed"
+  else
+    log_error "zoxide installation failed"
+  fi
+fi
+
 end_timer "success"
