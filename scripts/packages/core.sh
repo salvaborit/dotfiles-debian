@@ -21,6 +21,7 @@ install_packages \
   tree \
   unzip \
   ufw \
+  gnupg \
   stow \
   tmux \
   jq \
