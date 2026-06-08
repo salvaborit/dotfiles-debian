@@ -179,3 +179,4 @@ export PATH="$HOME/.grok/bin:$PATH"
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd cd)"
 fi
+export PATH="$HOME/.local/bin:$PATH"
