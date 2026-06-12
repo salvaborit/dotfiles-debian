@@ -18,8 +18,27 @@ source "$SCRIPT_DIR/../common.sh"
 
 start_timer "protonvpn"
 
+# Helper: disable the kill switch. The CLI 1.0.1 NM-based kill switch creates
+# a dummy interface (pvpnksintrf0) with metric 98 that hijacks the default
+# route for 2-8s during VPN flip. If the CLI is interrupted, the
+# `pvpn-killswitch` / `pvpn-routed-killswitch` NM connections remain, leaving
+# the bad route in place until reboot. We disable it here and rely on the
+# vpn-up/vpn-down/vpn-cleanup wrappers in scripts-local for orphan cleanup.
+# See docs/protonvpn-debian.md for the full rationale.
+disable_kill_switch() {
+  if ! command_exists protonvpn; then
+    return 0
+  fi
+  log_info "Disabling ProtonVPN kill switch (see docs/protonvpn-debian.md)..."
+  # The CLI prints noisy auth lines on stdout; filter them.
+  if protonvpn config set kill-switch off 2>&1 | grep -viE 'authenticating|^$' || true; then
+    log_success "Kill switch set to off"
+  fi
+}
+
 if command_exists protonvpn; then
   log_success "ProtonVPN CLI is already installed: $(protonvpn --version 2>/dev/null || echo present)"
+  disable_kill_switch
   end_timer "skipped"
   exit 0
 fi
@@ -71,6 +90,8 @@ if ! groups "$USER" | grep -qw netdev; then
   sudo usermod -aG netdev "$USER"
   log_info "Added $USER to netdev group (re-login required for it to apply)"
 fi
+
+disable_kill_switch
 
 log_success "ProtonVPN CLI installed. Sign in with: protonvpn signin <username>"
 

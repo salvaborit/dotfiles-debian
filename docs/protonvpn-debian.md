@@ -165,6 +165,77 @@ The catch-all in `main()` still re-raises after the print, but running it
 this way the traceback lands on stderr instead of being eaten by the installed
 script wrapper.
 
+## Kill switch causes orphaned routes / disconnect hangs / Claude API drops
+
+CLI 1.0.1 ships an NM-based kill switch that is broken in a way that wedges
+the box's networking until reboot. We disable it at install time and
+distribute four wrapper scripts (`vpn-up`, `vpn-down`, `vpn-status`,
+`vpn-cleanup` — see `scripts-local/.local/bin/`) that the recon skill and any
+ad-hoc caller should use instead of `protonvpn connect/disconnect` directly.
+
+### What goes wrong
+
+On every connect, the kill switch creates a dummy NM connection
+`pvpn-killswitch` backed by interface `pvpnksintrf0` with:
+
+- `ipv4.route-metric: 98` (lower number wins — beats the real default route)
+- `ipv4.gateway: 100.85.0.1` (fake, unreachable)
+- `ipv4.dns: 0.0.0.0` with `dns-priority: -1400` (overrides everything else)
+
+While that connection is up, all traffic to e.g. `api.anthropic.com` is
+routed at the dummy interface and gets `ECONNREFUSED` synchronously. The
+window is 2-8 seconds during connect AND during disconnect — long enough to
+kill an active Claude Code session mid-call.
+
+Worse, if the CLI is interrupted (35s `timeout`, SIGKILL, async race
+inside `wait_for_current_tasks()` — the 10s asyncio barrier in the
+`disconnect` command), the `pvpn-killswitch` and `pvpn-routed-killswitch` NM
+connections are not torn down. The metric-98 dummy route survives, and the
+box has no working default route until reboot.
+
+This bites us specifically because `enp0s31f6` is `managed=false` (ifupdown).
+NM's priority system can't cleanly supersede the default route on an
+unmanaged interface; both routes coexist and the dummy wins on metric.
+
+### Mitigation
+
+1. **Installer disables the kill switch.** `scripts/packages/protonvpn.sh`
+   runs `protonvpn config set kill-switch off` on every install. With
+   kill-switch off, the dummy connections are never created.
+
+2. **Wrappers run cleanup on every disconnect.** `vpn-down` always calls
+   `vpn-cleanup` after `protonvpn disconnect`, even on success. Cleanup is
+   idempotent (`nmcli connection delete … 2>/dev/null || true` per name) and
+   covers `pvpn-killswitch`, `pvpn-killswitch-perm`,
+   `pvpn-routed-killswitch`, `pvpn-routed-killswitch-perm`,
+   `pvpn-killswitch-ipv6`, `pvpn-ipv6leak-protection`.
+
+3. **Wrappers cap CLI hangs.** All wrappers wrap their `protonvpn` call in
+   `timeout 35`. For `vpn-down`/`vpn-status` a timeout (exit 124) is
+   soft-success — the state change has already happened, just the asyncio
+   cleanup hung. For `vpn-up` a timeout is a hard failure (route table may
+   be inconsistent); the caller should rotate to a different country.
+
+4. **The wrapper config never re-enables the kill switch.** Only the
+   installer touches `protonvpn config set kill-switch`. The runtime
+   wrappers only manage the NM connections, never the config setting.
+
+### Trade-off
+
+There is a 2-8s IP-leak window during every `vpn-up` and `vpn-down`. For
+recon workflows that's acceptable — the actual scan tools run only after
+the tunnel is confirmed up. If leak protection is critical for a different
+workflow, options are:
+
+- Per-app firewall rules binding specific tools to `tun0` (no system-wide
+  kill switch needed).
+- A different VPN client (Mullvad, `wg-quick`) whose kill switch isn't
+  built on NM dummy interfaces.
+
+Do **not** re-enable the kill switch via the GUI or `protonvpn config set
+kill-switch standard` without re-reading this section — it brings back all
+three bugs (hang, ConnectionRefused, post-disconnect routing wedge).
+
 ## Aside — the noisy keyring tracebacks
 
 The vpn-cli.log is full of `secretstorage.exceptions.PromptDismissedException`
