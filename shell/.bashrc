@@ -15,7 +15,7 @@ else
   alias lsa='ls -lah'
 fi
 
-alias update='sudo apt upgrade -y && sudo apt update -y'
+alias update='sudo apt update -y && sudo apt upgrade -y'
 
 alias gg='lazygit'
 alias gita='git add'
@@ -187,6 +187,6 @@ export PATH="$HOME/.local/bin:$PATH"
 
 # Auto-unlock gnome-keyring for ProtonVPN over SSH
 if [ -z "$GNOME_KEYRING_CONTROL" ]; then
-    eval $(gnome-keyring-daemon --start --components=secrets 2>/dev/null)
-    export GNOME_KEYRING_CONTROL
+  eval $(gnome-keyring-daemon --start --components=secrets 2>/dev/null)
+  export GNOME_KEYRING_CONTROL
 fi
