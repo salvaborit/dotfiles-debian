@@ -63,24 +63,28 @@ alias cc='claude'
 alias ccw='claude --worktree'
 alias ccc='claude --dangerously-skip-permissions'
 alias cccw='claude --dangerously-skip-permissions --worktree'
-# model variants: o=opus, s=sonnet, 5=4.5, 6=4.6
+# model variants: o=opus, s=sonnet, 5=4.5, 6=4.6, 7=4.7
 alias cco5='claude --model claude-opus-4-5'
 alias cco6='claude --model claude-opus-4-6'
+alias cco7='claude --model claude-opus-4-7'
 alias ccs5='claude --model claude-sonnet-4-5'
 alias ccs6='claude --model claude-sonnet-4-6'
 # worktree + model
 alias ccwo5='claude --worktree --model claude-opus-4-5'
 alias ccwo6='claude --worktree --model claude-opus-4-6'
+alias ccwo7='claude --worktree --model claude-opus-4-7'
 alias ccws5='claude --worktree --model claude-sonnet-4-5'
 alias ccws6='claude --worktree --model claude-sonnet-4-6'
 # dangerously-skip-permissions + model
 alias ccco5='claude --dangerously-skip-permissions --model claude-opus-4-5'
 alias ccco6='claude --dangerously-skip-permissions --model claude-opus-4-6'
+alias ccco7='claude --dangerously-skip-permissions --model claude-opus-4-7'
 alias cccs5='claude --dangerously-skip-permissions --model claude-sonnet-4-5'
 alias cccs6='claude --dangerously-skip-permissions --model claude-sonnet-4-6'
 # dangerously-skip-permissions + worktree + model
 alias cccwo5='claude --dangerously-skip-permissions --worktree --model claude-opus-4-5'
 alias cccwo6='claude --dangerously-skip-permissions --worktree --model claude-opus-4-6'
+alias cccwo7='claude --dangerously-skip-permissions --worktree --model claude-opus-4-7'
 alias cccws5='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-5'
 alias cccws6='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-6'
 
@@ -180,3 +184,9 @@ if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd cd)"
 fi
 export PATH="$HOME/.local/bin:$PATH"
+
+# Auto-unlock gnome-keyring for ProtonVPN over SSH
+if [ -z "$GNOME_KEYRING_CONTROL" ]; then
+    eval $(gnome-keyring-daemon --start --components=secrets 2>/dev/null)
+    export GNOME_KEYRING_CONTROL
+fi
