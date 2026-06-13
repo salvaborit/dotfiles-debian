@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# vpn-cleanup — idempotent removal of orphaned ProtonVPN kill-switch NM connections.
+#
+# ProtonVPN CLI 1.0.1's NM-based kill switch leaves these connections behind when
+# the CLI is interrupted (timeout, async race, signal). The leftover dummy
+# interfaces hijack the default route with metric 98 and break system networking
+# until reboot. This script tears them down. Safe to run anytime — every nmcli
+# delete is wrapped to ignore "unknown connection" errors.
+#
+# Exit code: always 0 (best-effort cleanup).
+
+set -u
+set -o pipefail
+
+CONNECTIONS=(
+  pvpn-killswitch
+  pvpn-killswitch-perm
+  pvpn-routed-killswitch
+  pvpn-routed-killswitch-perm
+  pvpn-killswitch-ipv6
+  pvpn-ipv6leak-protection
+)
+
+for conn in "${CONNECTIONS[@]}"; do
+  if nmcli connection delete "$conn" 2>/dev/null; then
+    echo "cleaned $conn"
+  else
+    echo "absent $conn"
+  fi
+done
+
+echo "vpn-cleanup: done"
+exit 0

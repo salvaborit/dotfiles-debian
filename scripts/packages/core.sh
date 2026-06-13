@@ -36,6 +36,7 @@ install_packages \
   dmidecode \
   lshw \
   build-essential \
+  linux-headers-amd64 \
   ripgrep \
   fd-find \
   gh \
