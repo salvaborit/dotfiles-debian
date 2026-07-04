@@ -26,8 +26,9 @@ cd dotfiles-debian
 
 **Packages installed:**
 
-- **Core (apt):** git, vim, tmux, curl, wget, htop, btop, stow, ufw, lazygit, ripgrep, fd-find, jq, openssh-server, net-tools, build-essential, fdisk, dmidecode, lshw, pulseaudio-utils
+- **Core (apt):** git, vim, tmux, curl, wget, htop, btop, stow, ufw, lazygit, ripgrep, fd-find, jq, openssh-server, net-tools, build-essential, linux-headers-amd64, fdisk, dmidecode, lshw, pulseaudio-utils
 - **Terminal:** neovim >= 0.11.2 (GitHub releases), starship (curl), eza (gierens repo), Node.js 24 (nvm)
+- **ProtonVPN CLI:** repo setup + CLI + NM backend modules + polkit rule for headless use (see [docs/protonvpn-debian.md](docs/protonvpn-debian.md))
 - **Docker:** Docker CE from upstream apt repo
 
 ## Audio

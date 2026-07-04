@@ -184,6 +184,7 @@ if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd cd)"
 fi
 export PATH="$HOME/.local/bin:$PATH"
+export PATH=$PATH:$(go env GOPATH)/bin # go
 
 # Auto-unlock gnome-keyring for ProtonVPN over SSH
 if [ -z "$GNOME_KEYRING_CONTROL" ]; then
