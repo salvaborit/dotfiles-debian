@@ -88,6 +88,16 @@ alias cccwo7='claude --dangerously-skip-permissions --worktree --model claude-op
 alias cccws5='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-5'
 alias cccws6='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-6'
 
+# opencode
+# base aliases: oo=opencode, ooo=opencode --auto
+# model variants: z1=zai/glm-5.1, z2=zai/glm-5.2 (default)
+alias oo='opencode'
+alias ooo='opencode --auto'
+alias ooz2='opencode -m zai/glm-5.2'
+alias ooz1='opencode -m zai/glm-5.1'
+alias oooz2='opencode --auto -m zai/glm-5.2'
+alias oooz1='opencode --auto -m zai/glm-5.1'
+
 alias timer='echo "Timer started. Stop with Ctrl+D." && date && time cat && date'
 alias myip='curl -s ifconfig.me'
 

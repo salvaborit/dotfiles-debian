@@ -16,6 +16,7 @@ Each top-level directory is a **stow package** that maps to `$HOME`:
 - `scripts-local/` — `.local/bin/` (tmux utility scripts, stowed with `--no-folding`)
 - `local/` — `.local/share/wordlists/` (10k word list used by terminal-tmux-bash)
 - `claude-home/` — `.claude/` (statusline config, sound hooks via PulseAudio/SSH, stowed with `--no-folding`)
+- `opencode/` — `.config/opencode/tui.json` (keybinds: Home/End for input bar, not scroll) and `.config/opencode/plugins/sounds.js` (event plugin reusing `claude-home`'s `~/.claude/sounds/*.wav` via `paplay`, mapped to `session.created`/`permission.asked`/`session.compacted`/`session.idle`). Stowed with `--no-folding` since `~/.config/opencode/` also holds non-stow-managed `opencode.json`, `agents/`, `node_modules/`.
 
 Install infrastructure:
 

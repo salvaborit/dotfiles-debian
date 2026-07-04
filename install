@@ -139,11 +139,13 @@ STOW_PACKAGES=(
   "scripts-local"
   "local"
   "claude-home"
+  "opencode"
 )
 
 # Prevent stow tree folding for directories with non-stow-managed content
 mkdir -p "$HOME/.claude"
 mkdir -p "$HOME/.local/bin"
+mkdir -p "$HOME/.config/opencode"
 
 STOW_SUCCESS=()
 STOW_FAILED=()
@@ -155,7 +157,7 @@ for package in "${STOW_PACKAGES[@]}"; do
   stow --delete "$package" 2>/dev/null || true
 
   # Use --no-folding for packages that share directories with non-stow content
-  if [ "$package" = "scripts-local" ] || [ "$package" = "claude-home" ]; then
+  if [ "$package" = "scripts-local" ] || [ "$package" = "claude-home" ] || [ "$package" = "opencode" ]; then
     stow_cmd="stow --restow --no-folding"
   else
     stow_cmd="stow --restow"
@@ -266,6 +268,8 @@ VERIFY_PATHS=(
   "$HOME/.claude/statusline-command.sh:claude-home"
   "$HOME/.claude/settings.json:claude-home"
   "$HOME/.claude/sounds/start.wav:claude-home"
+  "$HOME/.config/opencode/tui.json:opencode"
+  "$HOME/.config/opencode/plugins/sounds.js:opencode"
 )
 
 VERIFY_SUCCESS=0
