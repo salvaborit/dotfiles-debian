@@ -204,3 +204,7 @@ if [ -z "$GNOME_KEYRING_CONTROL" ]; then
   eval $(gnome-keyring-daemon --start --components=secrets 2>/dev/null)
   export GNOME_KEYRING_CONTROL
 fi
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
