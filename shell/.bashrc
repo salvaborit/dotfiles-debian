@@ -63,28 +63,32 @@ alias cc='claude'
 alias ccw='claude --worktree'
 alias ccc='claude --dangerously-skip-permissions'
 alias cccw='claude --dangerously-skip-permissions --worktree'
-# model variants: o=opus, s=sonnet, 5=4.5, 6=4.6, 7=4.7
+# model variants: o=opus, s=sonnet, 5=4.5, 6=4.6, 7=4.7, 8=4.8
 alias cco5='claude --model claude-opus-4-5'
 alias cco6='claude --model claude-opus-4-6'
 alias cco7='claude --model claude-opus-4-7'
+alias cco8='claude --model claude-opus-4-8'
 alias ccs5='claude --model claude-sonnet-4-5'
 alias ccs6='claude --model claude-sonnet-4-6'
 # worktree + model
 alias ccwo5='claude --worktree --model claude-opus-4-5'
 alias ccwo6='claude --worktree --model claude-opus-4-6'
 alias ccwo7='claude --worktree --model claude-opus-4-7'
+alias ccwo8='claude --worktree --model claude-opus-4-8'
 alias ccws5='claude --worktree --model claude-sonnet-4-5'
 alias ccws6='claude --worktree --model claude-sonnet-4-6'
 # dangerously-skip-permissions + model
 alias ccco5='claude --dangerously-skip-permissions --model claude-opus-4-5'
 alias ccco6='claude --dangerously-skip-permissions --model claude-opus-4-6'
 alias ccco7='claude --dangerously-skip-permissions --model claude-opus-4-7'
+alias ccco8='claude --dangerously-skip-permissions --model claude-opus-4-8'
 alias cccs5='claude --dangerously-skip-permissions --model claude-sonnet-4-5'
 alias cccs6='claude --dangerously-skip-permissions --model claude-sonnet-4-6'
 # dangerously-skip-permissions + worktree + model
 alias cccwo5='claude --dangerously-skip-permissions --worktree --model claude-opus-4-5'
 alias cccwo6='claude --dangerously-skip-permissions --worktree --model claude-opus-4-6'
 alias cccwo7='claude --dangerously-skip-permissions --worktree --model claude-opus-4-7'
+alias cccwo8='claude --dangerously-skip-permissions --worktree --model claude-opus-4-8'
 alias cccws5='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-5'
 alias cccws6='claude --dangerously-skip-permissions --worktree --model claude-sonnet-4-6'
 
