@@ -163,6 +163,13 @@ for package in "${STOW_PACKAGES[@]}"; do
     stow_cmd="stow --restow"
   fi
 
+  # claude-home: never stow settings.json — Claude Code rewrites it as a real file
+  # at runtime, so stow conflicts on it and ABORTS THE WHOLE PACKAGE, wiping the
+  # statusline + sound symlinks. Ignore it here; it is seeded separately below.
+  if [ "$package" = "claude-home" ]; then
+    stow_cmd="$stow_cmd --ignore=settings\.json"
+  fi
+
   if $stow_cmd "$package" 2>&1; then
     STOW_SUCCESS+=("$package")
     log_success "$package deployed"
@@ -171,6 +178,17 @@ for package in "${STOW_PACKAGES[@]}"; do
     log_error "$package failed to deploy"
   fi
 done
+
+# Seed Claude Code settings.json (real file, NOT symlinked — Claude Code owns it at
+# runtime). Copy the repo's version only if the box has none; never overwrite an
+# existing one, which would clobber machine-local settings Claude has written.
+if [ ! -e "$HOME/.claude/settings.json" ]; then
+  log_info "Seeding ~/.claude/settings.json from repo..."
+  cp "$DOTFILES_DIR/claude-home/.claude/settings.json" "$HOME/.claude/settings.json"
+  log_success "settings.json seeded"
+else
+  log_success "~/.claude/settings.json already present — left untouched"
+fi
 
 # Optionally apply starship nerd-font-symbols preset (writes through stow symlink)
 if command_exists starship; then
@@ -238,14 +256,21 @@ bash "$SCRIPT_DIR/packages/protonvpn.sh"
 echo ""
 
 # ============================================================================
-# 8. Install Docker (last, as requested)
+# 8. Install earlyoom (OOM guard — prevents memory-exhaustion hard freezes)
+# ============================================================================
+
+bash "$SCRIPT_DIR/packages/earlyoom.sh"
+echo ""
+
+# ============================================================================
+# 9. Install Docker (last, as requested)
 # ============================================================================
 
 bash "$SCRIPT_DIR/packages/docker.sh"
 echo ""
 
 # ============================================================================
-# 9. Verify symlinks
+# 10. Verify symlinks
 # ============================================================================
 
 log_info "Verifying symlink deployment..."
@@ -266,7 +291,7 @@ VERIFY_PATHS=(
   "$HOME/.local/bin/terminal-tmux-bash:scripts-local"
   "$HOME/.local/share/wordlists/mit-top-10000-en.txt:local"
   "$HOME/.claude/statusline-command.sh:claude-home"
-  "$HOME/.claude/settings.json:claude-home"
+  "$HOME/.claude/settings.json:seeded"
   "$HOME/.claude/sounds/start.wav:claude-home"
   "$HOME/.config/opencode/tui.json:opencode"
   "$HOME/.config/opencode/plugins/sounds.js:opencode"

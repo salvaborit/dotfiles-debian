@@ -15,7 +15,7 @@ Each top-level directory is a **stow package** that maps to `$HOME`:
 - `neovim/` — `.config/nvim/` (full LazyVim IDE setup)
 - `scripts-local/` — `.local/bin/` (tmux utility scripts, stowed with `--no-folding`)
 - `local/` — `.local/share/wordlists/` (10k word list used by terminal-tmux-bash)
-- `claude-home/` — `.claude/` (statusline config, sound hooks via PulseAudio/SSH, stowed with `--no-folding`)
+- `claude-home/` — `.claude/` (statusline script + sound hooks via PulseAudio/SSH, stowed with `--no-folding`). **`settings.json` is NOT stowed** — it's `--ignore`d by stow and instead *seeded* (copied if absent) by `install`, because Claude Code rewrites it as a real file at runtime. Symlinking it caused a stow conflict that aborted the whole package and wiped the statusline + sound links.
 - `opencode/` — `.config/opencode/tui.json` (keybinds: Home/End for input bar, not scroll) and `.config/opencode/plugins/sounds.js` (event plugin reusing `claude-home`'s `~/.claude/sounds/*.wav` via `paplay`, mapped to `session.created`/`permission.asked`/`session.compacted`/`session.idle`). Stowed with `--no-folding` since `~/.config/opencode/` also holds non-stow-managed `opencode.json`, `agents/`, `node_modules/`.
 
 Install infrastructure:
@@ -24,6 +24,7 @@ Install infrastructure:
 - `scripts/common.sh` — shared functions: logging, `install_packages` (apt-based), `ask_yes_no`, `configure_git`, timers
 - `scripts/packages/core.sh` — apt packages (git, vim, tmux, curl, htop, btop, ufw, stow, lazygit, ripgrep, fd-find, pulseaudio-utils, etc.)
 - `scripts/packages/terminal.sh` — neovim >= 0.11.2 (GitHub releases), starship (curl installer), eza (gierens apt repo)
+- `scripts/packages/earlyoom.sh` — earlyoom OOM guard + tuned `/etc/default/earlyoom` (prevents memory-exhaustion hard freezes on low-RAM shared boxes)
 - `scripts/packages/docker.sh` — Docker CE from upstream apt repo (removes conflicting packages first)
 
 ## Key Commands
