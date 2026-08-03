@@ -1,5 +1,9 @@
 # ProtonVPN CLI on headless Debian — notes
 
+> **See also:** [protonvpn-dns-networking.md](protonvpn-dns-networking.md) — why a
+> VPN up/down *flip* can break all networking (ENOENT / API errors) and how it's
+> permanently pinned.
+
 A fresh `apt install proton-vpn-cli` on a TTY-only Debian box (no graphical
 session) sign-ins fine but `protonvpn connect` fails with:
 
