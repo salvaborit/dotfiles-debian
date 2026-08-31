@@ -46,6 +46,9 @@ alias ds='docker stats'
 alias q='exit'
 alias c='clear'
 
+# list all aliases defined in .bashrc
+alias aliases='grep -E "^\s*alias " ~/.bashrc'
+
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
