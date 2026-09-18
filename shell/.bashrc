@@ -218,3 +218,9 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 
 # opencode
 export PATH="/home/sba/.opencode/bin:$PATH"
+
+# fecha en formato uruguayo (día/mes/año) — locale es_UY generado en $HOME
+# (bash cachea LOCPATH al arrancar: se silencia su aviso, los programas hijos sí lo usan)
+if [ -d "$HOME/.local/share/locale/es_UY.UTF-8" ]; then
+  { export LOCPATH="$HOME/.local/share/locale" LC_TIME="es_UY.UTF-8"; } 2>/dev/null
+fi
