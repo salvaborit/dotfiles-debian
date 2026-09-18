@@ -210,6 +210,35 @@ export PATH="$HOME/.grok/bin:$PATH"
 if command -v zoxide &>/dev/null; then
   eval "$(zoxide init bash --cmd cd)"
 fi
+
+# bash-completion (Tab completes ssh hosts, git/docker/apt subcommands)
+if ! shopt -oq posix && [ -z "$BASH_COMPLETION_VERSINFO" ] && [ -r /usr/share/bash-completion/bash_completion ]; then
+  . /usr/share/bash-completion/bash_completion
+fi
+
+# fzf - Ctrl+R history search, Ctrl+T pick file, Alt+C jump to dir
+if command -v fzf &>/dev/null; then
+  if command -v fdfind &>/dev/null; then
+    export FZF_DEFAULT_COMMAND='fdfind --type f --hidden --follow --exclude .git'
+    export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+    export FZF_ALT_C_COMMAND='fdfind --type d --hidden --follow --exclude .git'
+  fi
+  export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+  export FZF_CTRL_T_OPTS="--preview 'batcat --color=always --style=numbers --line-range=:200 {}'"
+  export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --color=always {}'"
+  eval "$(fzf --bash)"
+fi
+
+# bat (Debian ships it as batcat) - cat stays untouched
+if command -v batcat &>/dev/null; then
+  alias bat='batcat'
+  export MANPAGER="sh -c 'col -bx | batcat -l man -p'" # colored man pages
+fi
+
+# direnv - per-project env vars from .envrc
+if command -v direnv &>/dev/null; then
+  eval "$(direnv hook bash)"
+fi
 export PATH="$HOME/.local/bin:$PATH"
 # go (only if installed)
 if command -v go &>/dev/null; then
