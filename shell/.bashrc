@@ -1,6 +1,16 @@
 # If not running interactively, don't do anything (leave this at the top of this file)
 [[ $- != *i* ]] && return
 
+# History - large, timestamped, shared live across all open terminals
+HISTSIZE=100000
+HISTFILESIZE=200000
+HISTCONTROL=ignoreboth:erasedups # no dups; a leading space skips saving
+HISTTIMEFORMAT='%F %T  '
+HISTIGNORE='ls:ll:c:clear:q:exit:pwd'
+shopt -s histappend # append to the file instead of overwriting it
+shopt -s cmdhist    # multi-line commands saved as one entry
+PROMPT_COMMAND="history -a; history -n${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
+
 # File system - eza-based ls replacement
 if command -v eza &>/dev/null; then
   alias ls='eza -lh --group-directories-first --icons=auto'
