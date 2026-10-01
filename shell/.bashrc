@@ -118,6 +118,12 @@ alias oooz1='opencode --auto -m zai/glm-5.1'
 alias timer='echo "Timer started. Stop with Ctrl+D." && date && time cat && date'
 alias myip='curl -s ifconfig.me'
 
+# ssh t-dmi machines (hosts defined in ~/.ssh/config)
+alias stda='ssh t-dmi-a'
+alias stdb='ssh t-dmi-b'
+alias stdc='ssh t-dmi-c'
+alias stde='ssh t-dmi-e'
+
 alias setgitperms='find /srv -maxdepth 2 -name ".git" -type d | xargs -I{} git -C {}/../ config core.sharedRepository group'
 
 # notes
