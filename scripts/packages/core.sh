@@ -39,6 +39,9 @@ install_packages \
   linux-headers-amd64 \
   ripgrep \
   fd-find \
+  fzf \
+  bat \
+  direnv \
   gh \
   pulseaudio-utils
 

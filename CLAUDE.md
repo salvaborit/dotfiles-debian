@@ -10,7 +10,7 @@ Dotfiles for Debian-based servers (Debian, Kali). Manages configuration files us
 
 Each top-level directory is a **stow package** that maps to `$HOME`:
 
-- `shell/` — `.bashrc`, `.vimrc`, `.config/starship.toml`
+- `shell/` — `.bashrc`, `.inputrc` (readline: case-insensitive completion, prefix history search on Up/Down), `.vimrc`, `.config/starship.toml`
 - `tmux/` — `.config/tmux/` (config + git-status script for status bar)
 - `neovim/` — `.config/nvim/` (full LazyVim IDE setup)
 - `scripts-local/` — `.local/bin/` (tmux utility scripts, stowed with `--no-folding`)
@@ -22,7 +22,7 @@ Install infrastructure:
 
 - `install` — main entry point, orchestrates everything. Accepts `--ssh-port PORT` to configure sshd + UFW.
 - `scripts/common.sh` — shared functions: logging, `install_packages` (apt-based), `ask_yes_no`, `configure_git`, timers
-- `scripts/packages/core.sh` — apt packages (git, vim, tmux, curl, htop, btop, ufw, stow, lazygit, ripgrep, fd-find, pulseaudio-utils, etc.)
+- `scripts/packages/core.sh` — apt packages (git, vim, tmux, curl, htop, btop, ufw, stow, lazygit, ripgrep, fd-find, fzf, bat, direnv, pulseaudio-utils, etc.)
 - `scripts/packages/terminal.sh` — neovim >= 0.11.2 (GitHub releases), starship (curl installer), eza (gierens apt repo)
 - `scripts/packages/earlyoom.sh` — earlyoom OOM guard + tuned `/etc/default/earlyoom` (prevents memory-exhaustion hard freezes on low-RAM shared boxes)
 - `scripts/packages/docker.sh` — Docker CE from upstream apt repo (removes conflicting packages first)

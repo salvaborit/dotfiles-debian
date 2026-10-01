@@ -278,6 +278,7 @@ log_info "Verifying symlink deployment..."
 VERIFY_PATHS=(
   "$HOME/.bashrc:shell"
   "$HOME/.vimrc:shell"
+  "$HOME/.inputrc:shell"
   "$HOME/.config/starship.toml:shell"
   "$HOME/.tmux.conf:tmux"
   "$HOME/.config/tmux/tmux.conf:tmux"

@@ -226,7 +226,12 @@ if command -v fzf &>/dev/null; then
   export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
   export FZF_CTRL_T_OPTS="--preview 'batcat --color=always --style=numbers --line-range=:200 {}'"
   export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --color=always {}'"
-  eval "$(fzf --bash)"
+  # fzf >= 0.48 ships its own bash integration; older Debian packages use the example scripts
+  if fzf --bash &>/dev/null; then
+    eval "$(fzf --bash)"
+  elif [ -r /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+    . /usr/share/doc/fzf/examples/key-bindings.bash
+  fi
 fi
 
 # bat (Debian ships it as batcat) - cat stays untouched
